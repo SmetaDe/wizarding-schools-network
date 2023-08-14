@@ -8,8 +8,7 @@ router.get("/School", async (req, res, next) => {
     try {
         const allSchools = await School.findAll();
         res.send(allSchools);
-    }
-    catch (err) {
+    } catch (err) {
         next(err);
     }
 });
@@ -35,9 +34,9 @@ router.post("/School", async (req, res, next) => {
 router.delete("/School/:id", async (req, res, next) => {
     try { 
         const oneSchool = await School.findByPk(req.params.id);
-        oneSchool.destroy();
-        res.sendStatus(200);  }
-    catch (err) {
+        await oneSchool.destroy();
+        res.sendStatus(200);
+    } catch (err) {
         next(err);
     }
 });
@@ -45,10 +44,9 @@ router.delete("/School/:id", async (req, res, next) => {
 router.put("/School/:id", async (req, res, next) => {
     try {
         const oneSchool = await School.findByPk(req.params.id);
-        oneSchool.update(req.body);
+        await oneSchool.update(req.body);
         res.send(oneSchool);
-    }
-    catch (err) {
+    } catch (err) {
         next(err);
     }
 });
@@ -66,15 +64,14 @@ router.get("/Student/:id", async (req, res, next) => {
     try {
         const oneStudent = await Student.findByPk(req.params.id);
         res.send(oneStudent);
-    }
-    catch (err) {
+    } catch (err) {
         next(err);
     }
 });
 
 router.post("/Student", async (req, res, next) => {
     try {
-        const newStudent = await Student.crate(req.body);
+        const newStudent = await Student.create(req.body);
         res.send(newStudent);
     } catch(err) {
         next(err);
@@ -84,9 +81,9 @@ router.post("/Student", async (req, res, next) => {
 router.delete("/Student/:id", async (req, res, next) => {
     try { 
         const oneStudent = await Student.findByPk(req.params.id);
-        oneStudent.destroy();
-        res.sendStatus(200);  }
-    catch (err) {
+        await oneStudent.destroy();
+        res.sendStatus(200);
+    } catch (err) {
         next(err);
     }
 });
@@ -94,12 +91,11 @@ router.delete("/Student/:id", async (req, res, next) => {
 router.put("/Student/:id", async (req, res, next) => {
     try {
         const oneStudent = await Student.findByPk(req.params.id);
-        oneStudent.update(req.body);
+        await oneStudent.update(req.body);
         res.send(oneStudent);
-    }
-    catch (err) {
+    } catch (err) {
         next(err);
     }
 });
 
-module.exports = router; 
+module.exports = router;

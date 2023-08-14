@@ -1,6 +1,4 @@
 "use strict";
-// const {db} = require("./db");
-
 const { db, Sequelize } = require("./db");
 
 // Require your models and make your associations

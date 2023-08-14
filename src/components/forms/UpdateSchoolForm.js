@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 export default function UpdateSchool() {
@@ -14,49 +13,49 @@ export default function UpdateSchool() {
             try {
                 const { data } = await axios.get(`/api/School/${id}`);
                 setSchool(data);
-            } catch (err) {
-              console.error(err);
+                setName(data.name);
+                setLocation(data.location);
+            } catch (error) {
+                console.error("Error fetching school:", error);
             }
         }
 
         fetchSchool();
-        }, [id]);
+    }, [id]);
 
     async function handleSubmit(event) {
         event.preventDefault();
-        console.log(name, location);
 
         try {
             const { data } = await axios.put(`/api/School/${id}`, {
                 name,
-                location, 
+                location,
             });
 
-            console.log(data);
             setName(data.name);
             setLocation(data.location);
-        } catch (err) {
-            console.error(err);
+        } catch (error) {
+            console.error("Error updating school:", error);
         }
     }
     
     return (
-        <>
         <form id="school-form" onSubmit={handleSubmit}>
-        <label htmlFor="name">Name:</label>
-        <input
-            name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            <label htmlFor="name">Name:</label>
+            <input
+                type="text"
+                name="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
             /> <br />
-        <label htmlFor="location">Location:</label>
-        <input
-            name="location"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
+            <label htmlFor="location">Location:</label>
+            <input
+                type="text"
+                name="location"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
             /> <br />
             <button type="submit">Submit</button>
-            </form> 
-        </>
-        );
-    }
+        </form>
+    );
+}

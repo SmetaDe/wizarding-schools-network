@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import Student from "../sections/Student";
+
 const StudentContext = createContext();
 
 export function StudentProvider({ children }) {
@@ -9,8 +10,12 @@ export function StudentProvider({ children }) {
 
     useEffect(() => {
         async function fetchAllStudents() {
-            const { data } = await axios.get("/api/Student");
-            setAllStudents(data);
+            try {
+                const response = await axios.get("/api/Student");
+                setAllStudents(response.data);
+            } catch (error) {
+                console.error("Error fetching students:", error);
+            }
         }
 
         fetchAllStudents();
@@ -18,28 +23,29 @@ export function StudentProvider({ children }) {
 
     const updateStudent = (id, updatedData) => {
         setSingleStudent((prevSingleStudent) => ({
-          ...prevSingleStudent,
-          ...updatedData,
+            ...prevSingleStudent,
+            ...updatedData,
         }));
-      };
+    };
 
     const addStudent = (newStudent) => {
         setAllStudents((prevStudents) => [...prevStudents, newStudent]);
-      };
+    };
 
     const contextValue = {
         allStudents,
         setAllStudents,
-        singleStudent, setSingleStudent,
+        singleStudent,
+        setSingleStudent,
         addStudent,
         updateStudent,
     };
 
     return (
-        <StudentContext.Provider value = {contextValue}>
+        <StudentContext.Provider value={contextValue}>
             {children}
         </StudentContext.Provider>
-        );
+    );
 }
 
 export function useStudentContext() {

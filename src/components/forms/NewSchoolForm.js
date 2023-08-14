@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function NewSchool() {
@@ -17,29 +16,29 @@ export default function NewSchool() {
                 location,
             });
 
-        navigate("/");
-        } catch (err) {
-            console.error(err);
+            navigate("/");
+        } catch (error) {
+            console.error("Error creating school:", error);
         }
     }
 
     return (
-        <>
         <form id="school-form" onSubmit={handleSubmit}>
-        <label htmlFor="name">Name:</label>
-        <input
-            name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            <label htmlFor="name">Name:</label>
+            <input
+                type="text"
+                name="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
             /> <br />
-        <label htmlFor="location">Location:</label>
-        <input
-            name="location"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
+            <label htmlFor="location">Location:</label>
+            <input
+                type="text"
+                name="location"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
             />
-            <button type="submit">Go</button>
-            </form> 
-        </>
-        );
+            <button type="submit">Create School</button>
+        </form>
+    );
 }
